@@ -1,0 +1,15 @@
+{% include header.inc %}
+<body class="center">
+<!--[if IE]><p class="browserupgrade">{{ site.browsehappy }}</p><![endif]-->
+<div class="hero-unit vcard"><h1>{{ site.title }}<br><small>{{ page.title }}</small></h1>
+{{ content }}
+<p>Contact me: {{ site.email }}</p>
+<div class="secondary">
+<div class="social-btns">
+<a href="https://facebook.com/{{ site.facebook_profile_id }}"><i class="fa fa-facebook"></i></a> 
+<a href="https://twitter.com/{{ site.twitter_username }}"><i class="fa fa-twitter"></i></a> 
+<a href="https://linkedin.com/in/{{ site.linkedin_profile }}"><i class="fa fa-linkedin"></i></a> 
+<a href="https://github.com/{{ site.github_username }}"><i class="fa fa-github"></i></a> 
+</div>
+<nav><ul><li><a href="blog-overview.html">Read my blog</a></li><li><a href="portfolio.html">See my portfolio</a></li></ul></nav></div><canvas id="decor"></canvas></div>
+{% include footer.inc %}
