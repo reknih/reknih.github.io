@@ -1,0 +1,12 @@
+{% include header.inc %}
+<body class="center">
+<!--[if IE]><p class="browserupgrade">{{ site.browsehappy }}</p><![endif]-->
+<div class="hero-unit vcard"><h1 class="keep-it-down">{{ site.title }}: {{ page.title }}</h1><p class="pages">Page {{ paginator.page }}</p>
+<ul class="post-list">
+{% for post in paginator.posts %}
+<li><a href="{{ post.url | prepend: site.github.url }}">{{ post.title }}</a><p><i class="fa fa-calendar"></i> {{ post.date | date_to_string }} <i class="fa fa-tag"></i> {% for category in post.categories %} {{category}} {% endfor %}</p></li>
+{% endfor %}
+</ul><div class="secondary reduce-space"><nav><a href="{{ site.github.url }}{% link index.md %}" class="up">Home</a> 
+{% if paginator.previous_page %}<a href="{{ paginator.previous_page_path }}">Previous</a>{% endif %}
+</nav>{% if paginator.next_page %}<nav><a href="{{ paginator.next_page_path }}">Next Page</a></nav>{% endif %}</div></div>
+{% include footer.inc %}

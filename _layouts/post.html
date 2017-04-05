@@ -2,10 +2,10 @@
 <body>
 <!--[if IE]><p class="browserupgrade">{{ site.browsehappy }}</p><![endif]-->
 <div class="post-container">
-<nav class="top-bar"><a href="index.html" class="home" title="back">x</a><a href="index.html" class="home">post overview</a><h1>Martin Haug's Blog.</h1></nav>
+<nav class="top-bar"><a href="{{ site.github.url }}{% link index.md %}" class="home" title="back">x</a><a href="{{ site.github.url }}{% link blog/index.html %}" class="home">post overview</a><h1>Martin Haug's Blog.</h1></nav>
 <div class="post">
 <h2>{{ page.title }}</h2>
-<p class="info"><i class="fa fa-calendar"></i> {{ page.date | date_to_string }}</p>
+<p class="info"><i class="fa fa-calendar"></i> {{ page.date | date_to_string }} <i class="fa fa-tag"></i> {% for category in post.categories %} {{category}} {% endfor %}</p>
 {{ content }}
 </div>
 </div>

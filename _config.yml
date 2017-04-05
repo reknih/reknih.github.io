@@ -23,18 +23,20 @@ browsehappy: > # this means to ignore newlines until "baseurl:"
   You are using an <strong>outdated</strong> browser.
   Please <a href="http://browsehappy.com/">upgrade your browser</a>
   to improve your experience.
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
 facebook_profile_id: martin.haug1
 twitter_username: reknih
 github_username:  reknih
 linkedin_profile:  martin-ernst-haug-074021135
 repository: reknih/reknih.github.io
+paginate: 3
+paginate_path: "/blog/page:num/"
+permalink: pretty
 
 # Build settings
 markdown: kramdown
 gems:
   - jekyll-feed
+  - jekyll-paginate
 exclude:
   - Gemfile
   - Gemfile.lock
