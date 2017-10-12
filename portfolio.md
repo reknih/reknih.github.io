@@ -23,6 +23,6 @@ Dr. Günther-Haug ist eine Ärztin für Psychotherapie in Schmitten. Ihre Websit
 - ![musica-reifenberg.de Homepage]({{ site.github.url }}/images/musicaReifenberg.png)
 ## [Musica Reifenberg](https://musica-reifenberg.de/)
 Musica Reifenberg's Website gibt es Hörproben und Videos, Besucher werden im Blog über die nächsten Auftritte des Ensembles informieren oder können sie gleich buchen.  
--![CWS Informant auf verschiedenen Geräten]({{ site.github.url }}/images/informant.png)
+- ![CWS Informant auf verschiedenen Geräten]({{ site.github.url }}/images/informant.png)
 ## [CWS Informant](http://centrallink.de/informant/)
 Der CWS Informant ist eine App für das Vertretungsplansystem der Christian-Wirth-Schule, die ich als [Open-Source-Projekt](https://github.com/reknih/UntisExp/) entwickelt habe. Es gibt sie für [Android](https://play.google.com/store/apps/details?id=vplan.vplan) und [Windows Phone](https://www.microsoft.com/de-de/store/p/cws-informant/9wzdncrfjw4k?wa=wsignin1.0&rtc=1), früher war auch eine iOS-Version verfügbar. Das Projekt baut auf Xamarin auf, um eine große Cross-Platform-Kompatibilität zu erhalten und bietet den Schülern eine viel bessere Benutzererfahrung als das Webangebot der Schule
