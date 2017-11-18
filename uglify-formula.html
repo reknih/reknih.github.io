@@ -15,7 +15,7 @@ layout: simple
 function prog2presentation(str) {
 	return str.replace(/(\|\|)|(OR)/g, "∨")
 		.replace(/!|(NOT)/ig, "¬")
-		.replace(/(<->)|(iff)|(<=>)/ig, "↔")
+		.replace(/(<->)|(<=>)/ig, "↔")
 		.replace(/(F(alse)?)|(Bottom)|0/ig, "⊥")
 		.replace(/(T(rue)?)|1|(Top)/ig, "T")
 		.replace(/(&&)|(AND)/ig, "∧")
@@ -29,11 +29,11 @@ function prog2presentation(str) {
 function prog2latex(str) {
 	return str.replace(/(\|\|)|(OR)/g, "\\vee")
 		.replace(/!|(NOT)/ig, "\\neg ")
-		.replace(/(<->)|(iff)|(<=>)/ig, "\\leftrightarrow")
 		.replace(/(F(alse)?)|(Bottom)|0/ig, "\\perp")
 		.replace(/(T(rue)?)|1|(Top)/ig, "\\top")
 		.replace(/(&&)|(AND)/ig, "\\wedge")
 		.replace(/(->)|(=>)/ig, "\\rightarrow")
+		.replace(/(<->)|(<=>)/ig, "\\leftrightarrow")
 		.replace(/(XOR)|(implies)|(\^)/ig, "\\oplus")
 		.replace(/phi/ig, "\\varphi")
 		.replace(/psi/ig, "\\psi")
