@@ -1,0 +1,53 @@
+---
+title: Uglify my Formulas
+layout: simple
+---
+
+<h2>Convert programming style boolean formulaes to LaTeX expressions</h2>
+<p>Do you wish yo didn't have to bother with the LaTeX style to write your logical formulaes? Do you think that LaTeX formulae source code is difficult to read and wish you could express yourself like you do with boolean expressions in most programming languages? Me too.</p>
+<p>Enter a boolean formulae below and see it converted to LaTeX. Use expressions like <code>&&</code> for and or <code>^</code> for XOR. Some Operators have alternatives built in. Phi and Psi will be converted.</p>
+<div>
+	<input type="text" name="box" id="box" placeholder="Phi === (A || B) -> !C" size="30"></input> <code>-></code> <b><code id="result"></code></b>
+	<p><small>Will render like</small>:<br><span id="pres_result"></span></p>
+</div>
+
+<script>
+function prog2presentation(str) {
+	return str.replace(/\|\|/g, "∨")
+		.replace(/(F(alse)?)|(bottom)|0/ig, "⊥")
+		.replace(/(T(rue)?)|1|(Top)/ig, "T")
+		.replace(/(&&)|(OR)/ig, "∧")
+		.replace(/!|(NOT)/ig, "¬")
+		.replace(/(<->)|(iff)|(<=>)/ig, "↔")
+		.replace(/(->)|(implies)|(=>)/gi, "→")
+		.replace(/(XOR)|(\^)/ig, "⊕")
+		.replace(/phi/ig, "φ")
+		.replace(/psi/ig, "ψ")
+		.replace(/===/g, "≡")
+}
+
+function prog2latex(str) {
+	return str.replace(/\|\|/g, "\\vee")
+		.replace(/(F(alse)?)|(bottom)|0/ig, "\\perp")
+		.replace(/(T(rue)?)|1|(Top)/ig, "\\top")
+		.replace(/(&&)|(OR)/ig, "\\wedge")
+		.replace(/!|(NOT)/ig, "\\neg ")
+		.replace(/(<->)|(iff)|(<=>)/ig, "\\leftrightarrow")
+		.replace(/(->)|(=>)/ig, "\\rightarrow")
+		.replace(/(XOR)|(implies)|(\^)/ig, "\\oplus")
+		.replace(/phi/ig, "\\varphi")
+		.replace(/psi/ig, "\\psi")
+		.replace(/===/g, "\\equiv")
+}
+
+document.addEventListener("DOMContentLoaded", function(t){
+	var textbox = document.getElementById("box");
+	var result = document.getElementById("result");
+	var pres = document.getElementById("pres_result");
+
+	textbox.addEventListener("input", function () {
+		result.innerText = prog2latex(textbox.value);
+		pres.innerText = prog2presentation(textbox.value);
+	});
+});
+</script>
