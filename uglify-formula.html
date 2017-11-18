@@ -13,10 +13,10 @@ layout: simple
 
 <script>
 function prog2presentation(str) {
-	return str.replace(/\|\|/g, "∨")
-		.replace(/(F(alse)?)|(bottom)|0/ig, "⊥")
+	return str.replace(/(\|\|)|(OR)/g, "∨")
+		.replace(/(F(alse)?)|(Bottom)|0/ig, "⊥")
 		.replace(/(T(rue)?)|1|(Top)/ig, "T")
-		.replace(/(&&)|(OR)/ig, "∧")
+		.replace(/(&&)|(AND)/ig, "∧")
 		.replace(/!|(NOT)/ig, "¬")
 		.replace(/(<->)|(iff)|(<=>)/ig, "↔")
 		.replace(/(->)|(implies)|(=>)/gi, "→")
@@ -27,10 +27,10 @@ function prog2presentation(str) {
 }
 
 function prog2latex(str) {
-	return str.replace(/\|\|/g, "\\vee")
-		.replace(/(F(alse)?)|(bottom)|0/ig, "\\perp")
+	return str.replace(/(\|\|)|(OR)/g, "\\vee")
+		.replace(/(F(alse)?)|(Bottom)|0/ig, "\\perp")
 		.replace(/(T(rue)?)|1|(Top)/ig, "\\top")
-		.replace(/(&&)|(OR)/ig, "\\wedge")
+		.replace(/(&&)|(AND)/ig, "\\wedge")
 		.replace(/!|(NOT)/ig, "\\neg ")
 		.replace(/(<->)|(iff)|(<=>)/ig, "\\leftrightarrow")
 		.replace(/(->)|(=>)/ig, "\\rightarrow")
@@ -38,6 +38,7 @@ function prog2latex(str) {
 		.replace(/phi/ig, "\\varphi")
 		.replace(/psi/ig, "\\psi")
 		.replace(/===/g, "\\equiv")
+		.replace(/:=/g, "\\coloneqq")
 }
 
 document.addEventListener("DOMContentLoaded", function(t){
