@@ -13,28 +13,28 @@ layout: simple
 
 <script>
 function prog2presentation(str) {
-	return str.replace(/(\|\|)|(OR)/g, "∨")
+	return str.replace(/(XOR)|(\^)/ig, "⊕")
+		.replace(/(\|\|)|(OR)/g, "∨")
 		.replace(/!|(NOT)/ig, "¬")
 		.replace(/(F(alse)?)|(Bottom)|0/ig, "⊥")
 		.replace(/(T(rue)?)|1|(Top)/ig, "T")
 		.replace(/(&&)|(AND)/ig, "∧")
 		.replace(/(<->)|(<=>)/ig, "↔")
 		.replace(/(->)|(implies)|(=>)/gi, "→")
-		.replace(/(XOR)|(implies)|(\^)/ig, "⊕")
 		.replace(/phi/ig, "φ")
 		.replace(/psi/ig, "ψ")
 		.replace(/===/g, "≡")
 }
 
 function prog2latex(str) {
-	return str.replace(/(\|\|)|(OR)/g, "\\vee")
+	return str.replace(/(XOR)|(\^)/ig, "\\oplus")
+		.replace(/(\|\|)|(OR)/g, "\\vee")
 		.replace(/!|(NOT)/ig, "\\neg ")
 		.replace(/(F(alse)?)|(Bottom)|0/ig, "\\perp")
 		.replace(/(T(rue)?)|1|(Top)/ig, "\\top")
 		.replace(/(&&)|(AND)/ig, "\\wedge")
 		.replace(/(<->)|(<=>)/ig, "\\leftrightarrow")
-		.replace(/(->)|(=>)/ig, "\\rightarrow")
-		.replace(/(XOR)|(implies)|(\^)/ig, "\\oplus")
+		.replace(/(->)|(implies)|(=>)/ig, "\\rightarrow")
 		.replace(/phi/ig, "\\varphi")
 		.replace(/psi/ig, "\\psi")
 		.replace(/===/g, "\\equiv")
