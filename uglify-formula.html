@@ -16,8 +16,8 @@ function prog2presentation(str) {
 	return str.replace(/(XOR)|(\^)/ig, "⊕")
 		.replace(/(\|\|)|(OR)/g, "∨")
 		.replace(/!|(NOT)/ig, "¬")
-		.replace(/(element)|(in)/ig, "∈").
-		.replace(/(!\s?element)|(!\s?in)/ig, "\\notin").
+		.replace(/(element)|(in)/ig, "∈")
+		.replace(/(!\s?element)|(!\s?in)/ig, "\\notin")
 		.replace(/(False)|\sF\s|(Bottom)|0/ig, "⊥")
 		.replace(/(True)|\sT\s|1|(Top)/ig, "T")
 		.replace(/(&&)|(AND)/ig, "∧")
@@ -63,7 +63,7 @@ function prog2latex(str) {
 		.replace(/!\s?=/g, "\\neq")
 		.replace(/!|(NOT)/ig, "\\neg ")
 		.replace(/(element)|(in)/ig, "\\in").
-		.replace(/(!\s?element)|(!\s?in)/ig, "\\notin").
+		.replace(/(!\s?element)|(!\s?in)/ig, "\\notin")
 		.replace(/(False)|\sF\s|(Bottom)|0/ig, "\\perp{}")
 		.replace(/(True)|\sT\s|1|(Top)/ig, "\\top{}")
 		.replace(/(&&)|(AND)/ig, "\\wedge")
