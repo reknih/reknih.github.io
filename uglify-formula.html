@@ -62,7 +62,7 @@ function prog2latex(str) {
 		.replace(/(\|\|)|(OR)/g, "\\vee")
 		.replace(/!\s?=/g, "\\neq")
 		.replace(/!|(NOT)/ig, "\\neg ")
-		.replace(/(element)|(in)/ig, "\\in").
+		.replace(/(element)|(in)/ig, "\\in")
 		.replace(/(!\s?element)|(!\s?in)/ig, "\\notin")
 		.replace(/(False)|\sF\s|(Bottom)|0/ig, "\\perp{}")
 		.replace(/(True)|\sT\s|1|(Top)/ig, "\\top{}")
