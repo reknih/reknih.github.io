@@ -64,6 +64,7 @@ function prog2latex(str) {
 		.replace(/!|(NOT)/ig, "\\neg ")
 		.replace(/(element)|(in)/ig, "\\in")
 		.replace(/(!\s?element)|(!\s?in)/ig, "\\notin")
+		.replace(/{}/g, "\\emptyset")
 		.replace(/(False)|\sF\s|(Bottom)|0/ig, "\\perp{}")
 		.replace(/(True)|\sT\s|1|(Top)/ig, "\\top{}")
 		.replace(/(&&)|(AND)/ig, "\\wedge")
@@ -96,7 +97,6 @@ function prog2latex(str) {
 		.replace(/\[/g, "\\llbracket")
 		.replace(/\]/g, "\\rrbracket")
 		.replace(/sqrt\((.*?)\)/g, "\\sqrt{$1}")
-		.replace(/{}/g, "\\emptyset")
 		.replace(/infinity/g, "\\infty")
 }
 
