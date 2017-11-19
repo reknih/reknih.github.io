@@ -9,105 +9,161 @@ layout: simple
 <div>
 	<input type="text" name="box" id="box" placeholder="Phi === (A || B) -> !C" size="60"></input> <code>-></code> <b><code id="result"></code></b>
 	<p><small>Will render like</small>:<br><span id="pres_result"></span></p>
+	<p class="hidden" id="parentheses-notice"><img src="/images/warning.svg" alt="Warning" style="height: 0.9em;"> The formulae's parentheses are not balanced!</p>
+	<p class="hidden" id="package-notice"><img src="/images/paintroll.svg" alt="Paintroll Icon" style="height: 0.9em;"> This formulae needs the package<span id="package-list"></span></p>
+	<p class="hidden" id="display-notice"><img src="/images/notice.svg" alt="Notice" style="height: 0.9em;"> The preview for this formulae is only an approximation of the final typeset result</p>
 </div>
 
 <script>
-function prog2presentation(str) {
-	return str.replace(/(XOR)|(\^)/ig, "⊕")
-		.replace(/(\|\|)|(OR)/g, "∨")
-		.replace(/!|(NOT)/ig, "¬")
-		.replace(/(element)|(in)/ig, "∈")
-		.replace(/(!\s?element)|(!\s?in)/ig, "\\notin")
-		.replace(/(False)|\sF\s|(Bottom)|0/ig, "⊥")
-		.replace(/(True)|\sT\s|1|(Top)/ig, "T")
-		.replace(/(&&)|(AND)/ig, "∧")
-		.replace(/(<->)|(<=>)/ig, "↔")
-		.replace(/(->)|(implies)|(=>)/gi, "→")
-		.replace(/alpha/ig, "α")
-		.replace(/beta/ig, "β")
-		.replace(/gamma/g, "γ")
-		.replace(/Gamma/ig, "Γ")
-		.replace(/delta/g, "δ")
-		.replace(/Delta/ig, "∆")
-		.replace(/eps(ilon)?/ig, "ε")
-		.replace(/zeta/ig, "ζ")
-		.replace(/theta/g, "θ")
-		.replace(/Theta/ig, "Θ")
-		.replace(/lambda/ig, "λ")
-		.replace(/(mu)|(micro)/ig, "μ")
-		.replace(/xi/g, "ξ")
-		.replace(/Xi/ig, "Ξ")
-		.replace(/pi/g, "π")
-		.replace(/Pi/ig, "Π")
-		.replace(/sigma/g, "σ")
-		.replace(/Sigma/ig, "Σ")
-		.replace(/tau/ig, "τ")
-		.replace(/phi/ig, "φ")
-		.replace(/chi/ig, "χ")
-		.replace(/psi/ig, "ψ")
-		.replace(/omega/g, "ω")
-		.replace(/Omega/ig, "Ω")
-		.replace(/===/g, "≡")
-		.replace(/\*/g, "×")
-		.replace(/\//g, "÷")
-		.replace(/>\s?=/g, "≥")
-		.replace(/(<\s?=)|(=\s?<)/g, "≤")
-		.replace(/sqrt\((.*?)\)/g, "√($1)")
-		.replace(/{}/g, "∅")
-		.replace(/infinity/g, "∞")
-}
+if (window.Worker) {
+	document.addEventListener("DOMContentLoaded", function(t){
+		var myWorker = new Worker('/scripts/latexworker.js');
 
-function prog2latex(str) {
-	return str.replace(/(XOR)|(\^)/ig, "\\oplus")
-		.replace(/(\|\|)|(OR)/g, "\\vee")
-		.replace(/!\s?=/g, "\\neq")
-		.replace(/!|(NOT)/ig, "\\neg ")
-		.replace(/(element)|(in)/ig, "\\in")
-		.replace(/(!\s?element)|(!\s?in)/ig, "\\notin")
-		.replace(/{}/g, "\\emptyset")
-		.replace(/(False)|\sF\s|(Bottom)|0/ig, "\\perp{}")
-		.replace(/(True)|\sT\s|1|(Top)/ig, "\\top{}")
-		.replace(/(&&)|(AND)/ig, "\\wedge")
-		.replace(/(<->)|(<=>)/ig, "\\leftrightarrow")
-		.replace(/(->)|(implies)|(=>)/ig, "\\rightarrow")
-		.replace(/alpha/ig, "\\alpha")
-		.replace(/beta/ig, "\\beta")
-		.replace(/(g)amma/ig, "\\$1amma")
-		.replace(/(d)elta/ig, "\\$1elta")
-		.replace(/eps(ilon)?/ig, "\\varepsilon")
-		.replace(/zeta/ig, "\\zeta")
-		.replace(/(t)heta/ig, "\\$1heta")
-		.replace(/lambda/ig, "\\lambda")
-		.replace(/(mu)|(micro)/ig, "\\mu")
-		.replace(/(x)i/ig, "\\$1i")
-		.replace(/(p)i/ig, "\\$1i")
-		.replace(/(S)igma/ig, "\\$1igma")
-		.replace(/tau/ig, "\\tau")
-		.replace(/phi/ig, "\\varphi")
-		.replace(/chi/ig, "\\chi")
-		.replace(/psi/ig, "\\psi")
-		.replace(/(O)mega/ig, "\\$1mega")
-		.replace(/===/g, "\\equiv")
-		.replace(/:=/g, "\\coloneqq")
-		.replace(/\.\.\./g, "\\cdots")
-		.replace(/\*/g, "\\times")
-		.replace(/\//g, "\\div")
-		.replace(/>\s?=/g, "\\geq")
-		.replace(/(<\s?=)|(=\s?<)/g, "\\leq")
-		.replace(/\[/g, "\\llbracket")
-		.replace(/\]/g, "\\rrbracket")
-		.replace(/sqrt\((.*?)\)/g, "\\sqrt{$1}")
-		.replace(/infinity/g, "\\infty")
-}
+		var textbox = document.getElementById("box");
+		var result = document.getElementById("result");
+		var pres = document.getElementById("pres_result");	
+		var parNot = document.getElementById("parentheses-notice");	
+		var pakNot = document.getElementById("package-notice");	
+		var dspNot = document.getElementById("display-notice");	
+		var pakInfo = document.getElementById("package-list");
 
-document.addEventListener("DOMContentLoaded", function(t){
-	var textbox = document.getElementById("box");
-	var result = document.getElementById("result");
-	var pres = document.getElementById("pres_result");
+		var id = 0;
 
-	textbox.addEventListener("input", function () {
-		result.innerText = prog2latex(textbox.value);
-		pres.innerText = prog2presentation(textbox.value);
+		textbox.addEventListener("input", function () {
+			myWorker.postMessage({id: id, input: textbox.value});
+			id++;
+		});
+
+		myWorker.onmessage = function(e) {
+			var workerRes = e.data;
+
+			result.innerText = workerRes.latex;
+			pres.innerText = workerRes.display;
+
+			if (workerRes.balanced) {
+				parNot.className = "hidden";
+			} else {
+				parNot.className = "";
+			}
+
+			if (!workerRes.warning) {
+				dspNot.className = "hidden";
+			} else {
+				dspNot.className = "";
+			}
+
+			if (workerRes.packages.length <= 0) {
+				pakNot.className = "hidden";
+			} else {
+				pakNot.className = "";
+				pakInfo.innerHTML = workerRes.packages.length == 1 ? " " : "s ";
+				for (var i = workerRes.packages.length - 1; i >= 0; i--) {
+					if (workerRes.packages.length > 1 && i == 0) pakInfo.innerHTML += "and ";
+					pakInfo.innerHTML += workerRes.packages[i];
+					pakInfo.innerHTML += " ";
+				}
+			}
+		}
 	});
-});
+
+} else {
+	function prog2presentation(str) {
+		return str.replace(/(XOR)|(\^)/ig, "⊕")
+			.replace(/(\|\|)|(OR)/g, "∨")
+			.replace(/!|(NOT)/ig, "¬")
+			.replace(/(element)|(in)/ig, "∈")
+			.replace(/(!\s?element)|(!\s?in)/ig, "\\notin")
+			.replace(/(False)|\sF\s|(Bottom)|0/ig, "⊥")
+			.replace(/(True)|\sT\s|1|(Top)/ig, "T")
+			.replace(/(&&)|(AND)/ig, "∧")
+			.replace(/(<->)|(<=>)/ig, "↔")
+			.replace(/(->)|(implies)|(=>)/gi, "→")
+			.replace(/alpha/ig, "α")
+			.replace(/beta/ig, "β")
+			.replace(/gamma/g, "γ")
+			.replace(/Gamma/ig, "Γ")
+			.replace(/delta/g, "δ")
+			.replace(/Delta/ig, "∆")
+			.replace(/eps(ilon)?/ig, "ε")
+			.replace(/zeta/ig, "ζ")
+			.replace(/theta/g, "θ")
+			.replace(/Theta/ig, "Θ")
+			.replace(/lambda/ig, "λ")
+			.replace(/(mu)|(micro)/ig, "μ")
+			.replace(/xi/g, "ξ")
+			.replace(/Xi/ig, "Ξ")
+			.replace(/pi/g, "π")
+			.replace(/Pi/ig, "Π")
+			.replace(/sigma/g, "σ")
+			.replace(/Sigma/ig, "Σ")
+			.replace(/tau/ig, "τ")
+			.replace(/phi/ig, "φ")
+			.replace(/chi/ig, "χ")
+			.replace(/psi/ig, "ψ")
+			.replace(/omega/g, "ω")
+			.replace(/Omega/ig, "Ω")
+			.replace(/===/g, "≡")
+			.replace(/\*/g, "×")
+			.replace(/\//g, "÷")
+			.replace(/>\s?=/g, "≥")
+			.replace(/(<\s?=)|(=\s?<)/g, "≤")
+			.replace(/sqrt\((.*?)\)/g, "√($1)")
+			.replace(/{}/g, "∅")
+			.replace(/infinity/g, "∞")
+	}
+
+	function prog2latex(str) {
+		return str.replace(/(XOR)|(\^)/ig, "\\oplus")
+			.replace(/(\|\|)|(OR)/g, "\\vee")
+			.replace(/!\s?=/g, "\\neq")
+			.replace(/!|(NOT)/ig, "\\neg ")
+			.replace(/(element)|(in)/ig, "\\in")
+			.replace(/(!\s?element)|(!\s?in)/ig, "\\notin")
+			.replace(/{}/g, "\\emptyset")
+			.replace(/(False)|\sF\s|(Bottom)|0/ig, "\\perp{}")
+			.replace(/(True)|\sT\s|1|(Top)/ig, "\\top{}")
+			.replace(/(&&)|(AND)/ig, "\\wedge")
+			.replace(/(<->)|(<=>)/ig, "\\leftrightarrow")
+			.replace(/(->)|(implies)|(=>)/ig, "\\rightarrow")
+			.replace(/alpha/ig, "\\alpha")
+			.replace(/beta/ig, "\\beta")
+			.replace(/(g)amma/ig, "\\$1amma")
+			.replace(/(d)elta/ig, "\\$1elta")
+			.replace(/eps(ilon)?/ig, "\\varepsilon")
+			.replace(/zeta/ig, "\\zeta")
+			.replace(/(t)heta/ig, "\\$1heta")
+			.replace(/lambda/ig, "\\lambda")
+			.replace(/(mu)|(micro)/ig, "\\mu")
+			.replace(/(x)i/ig, "\\$1i")
+			.replace(/(p)i/ig, "\\$1i")
+			.replace(/(S)igma/ig, "\\$1igma")
+			.replace(/tau/ig, "\\tau")
+			.replace(/phi/ig, "\\varphi")
+			.replace(/chi/ig, "\\chi")
+			.replace(/psi/ig, "\\psi")
+			.replace(/(O)mega/ig, "\\$1mega")
+			.replace(/===/g, "\\equiv")
+			.replace(/:=/g, "\\coloneqq")
+			.replace(/\.\.\./g, "\\cdots")
+			.replace(/\*/g, "\\times")
+			.replace(/\//g, "\\div")
+			.replace(/>\s?=/g, "\\geq")
+			.replace(/(<\s?=)|(=\s?<)/g, "\\leq")
+			.replace(/\[/g, "\\llbracket")
+			.replace(/\]/g, "\\rrbracket")
+			.replace(/sqrt\((.*?)\)/g, "\\sqrt{$1}")
+			.replace(/infinity/g, "\\infty")
+	}
+
+	document.addEventListener("DOMContentLoaded", function(t){
+		var textbox = document.getElementById("box");
+		var result = document.getElementById("result");
+		var pres = document.getElementById("pres_result");	
+
+		textbox.addEventListener("input", function () {
+			result.innerText = prog2latex(textbox.value);
+			pres.innerText = prog2presentation(textbox.value);
+		});
+	});
+}
 </script>
