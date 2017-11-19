@@ -141,7 +141,7 @@ function displayWarn(pres) {
 }
 
 onmessage = function(e) {
-  console.log('Message received from main script');
+  //console.log('Message received from main script');
   var res = {
   	id: e.data.id,
   	balanced: parenthesesAreBalanced(e.data.input),
@@ -151,6 +151,6 @@ onmessage = function(e) {
   	warning: false,
   };
   res.warning = displayWarn(res.display);
-  console.log('Posting message back to main script');
+  //console.log('Posting message back to main script');
   postMessage(res);
 }
