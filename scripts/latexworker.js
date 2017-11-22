@@ -60,6 +60,8 @@ function prog2latex(str) {
 		.replace(/(<->)|(<=>)/ig, "\\leftrightarrow")
 		.replace(/(->)|(implies)|(=>)/ig, "\\rightarrow")
 		.replace(/alpha/ig, "\\alpha")
+		.replace(/alpha/ig, "\\alpha")
+		.replace(/\n/ig, "\\\\\n")
 		.replace(/beta/ig, "\\beta")
 		.replace(/(g)amma/ig, "\\$1amma")
 		.replace(/(d)elta/ig, "\\$1elta")
