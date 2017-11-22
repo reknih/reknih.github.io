@@ -3,8 +3,8 @@ function prog2presentation(str) {
 		.replace(/(\|\|)|(OR)/g, "∨")
 		.replace(/!|(NOT)/ig, "¬")
 		.replace(/(element)|(in)/ig, "∈")
-		.replace(/(False)|\sF\s|(Bottom)|0/ig, "⊥")
-		.replace(/(True)|\sT\s|1|(Top)/ig, "T")
+		.replace(/(False)|\sF\s|(Bottom)/ig, "⊥")
+		.replace(/(True)|\sT\s|(Top)/ig, "T")
 		.replace(/(&&?)|(AND)/ig, "∧")
 		.replace(/(<->)|(<=>)/ig, "↔")
 		.replace(/(->)|(implies)|(=>)/gi, "→")
@@ -29,7 +29,7 @@ function prog2presentation(str) {
 		.replace(/tau/ig, "τ")
 		.replace(/phi/ig, "φ")
 		.replace(/chi/ig, "χ")
-		.replace(/psi/ig, "ψ")
+		.replace(/\spsi/ig, "ψ")
 		.replace(/omega/g, "ω")
 		.replace(/Omega/ig, "Ω")
 		.replace(/===/g, "≡")
@@ -48,13 +48,14 @@ function prog2latex(str) {
 	return str.replace(/(XOR)|(\^)/ig, "\\oplus")
 		.replace(/(\|\|)|(OR)/g, "\\vee")
 		.replace(/!\s?=/g, "\\neq")
+		.replace(/\|=/g, "\\vDash")
 		.replace(/!|(NOT)/ig, "\\neg ")
 		.replace(/infinity/ig, "∞")
 		.replace(/(element)|(in)/ig, "\\in")
 		.replace(/(!\s?element)|(!\s?in)/ig, "\\notin")
 		.replace(/{}/g, "\\emptyset")
-		.replace(/(False)|\sF\s|(Bottom)|0/ig, "\\perp{}")
-		.replace(/(True)|\sT\s|1|(Top)/ig, "\\top{}")
+		.replace(/(False)|\sF\s|(Bottom)/ig, "\\perp{}")
+		.replace(/(True)|\sT\s|(Top)/ig, "\\top{}")
 		.replace(/(&&?)|(AND)/ig, "\\wedge")
 		.replace(/(<->)|(<=>)/ig, "\\leftrightarrow")
 		.replace(/(->)|(implies)|(=>)/ig, "\\rightarrow")
@@ -73,7 +74,7 @@ function prog2latex(str) {
 		.replace(/tau/ig, "\\tau")
 		.replace(/phi/ig, "\\varphi")
 		.replace(/chi/ig, "\\chi")
-		.replace(/psi/ig, "\\psi")
+		.replace(/\spsi/ig, "\\psi")
 		.replace(/(O)mega/ig, "\\$1mega")
 		.replace(/===/g, "\\equiv")
 		.replace(/:=/g, "\\coloneqq")
@@ -129,14 +130,16 @@ function matchInArray(str, a) {
 function whatThePack(input) {
 	var stmaryd = ["[[", "]]"];
 	var mathtools = [":="];
+	var amssyb = ["|="];
 	var res = [];
 	if (matchInArray(input, stmaryd)) res.push("stmaryd");
 	if (matchInArray(input, mathtools)) res.push("mathtools");
+	if (matchInArray(input, amssyb)) res.push("amssyb");
 	return res;
 }
 
 function displayWarn(pres) {
-	var warning = ["√", "[[", "]]", "└", "┌", "T", ":="];
+	var warning = ["√", "[[", "]]", "└", "┌", "T", ":=", "|="];
 	return matchInArray(pres, warning);
 }
 
