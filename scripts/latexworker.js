@@ -97,8 +97,6 @@ function prog2latex(str) {
 	.replace(/∞/g, "\\infty")
 }
 
-var 
-
 // courtesy of https://codereview.stackexchange.com/questions/45991/balanced-parentheses
 function parenthesesAreBalanced(string) {
 	var parentheses = "[]{}()",
