@@ -8,6 +8,9 @@ function prog2presentation(str) {
 	.replace(/(&&)|(AND)/ig, "∧")
 	.replace(/(<->)|(<=>)/ig, "↔")
 	.replace(/(->)|(implies)|(=>)/gi, "→")
+	.replace(/([^\w\\]|^)N(\W|$)/gm, "$1ℕ$2")
+	.replace(/([^\w\\]|^)Z(\W|$)/gm, "$1ℤ$2")
+	.replace(/([^\w\\]|^)R(\W|$)/gm, "$1ℝ$2")
 	.replace(/forall/ig, "∀")
 	.replace(/exists/ig, "∃")
 	.replace(/alpha/ig, "α")
@@ -56,6 +59,7 @@ function prog2latex(str) {
 	.replace(/infinity/ig, "∞")
 	.replace(/(element)|(in)/ig, "\\in")
 	.replace(/(!\s?element)|(!\s?in)/ig, "\\notin")
+	.replace(/([^\w\\]|^)([NZRCQ])(\W|$)/gm, "$1\\mathbb{$2}$3")
 	.replace(/{}/g, "\\emptyset")
 	.replace(/(False)|\sF\s|(Bottom)/ig, "\\perp{}")
 	.replace(/(True)|\sT\s|(Top)/ig, "\\top{}")
@@ -144,7 +148,7 @@ function whatThePack(input) {
 }
 
 function displayWarn(pres) {
-	var warning = ["√", "[[", "]]", "└", "┌", "T", ":=", "|="];
+	var warning = ["√", "[[", "]]", "└", "┌", "T", ":=", "|=", "C", "Q"];
 	return matchInArray(pres, warning);
 }
 
