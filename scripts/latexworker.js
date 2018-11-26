@@ -8,6 +8,8 @@ function prog2presentation(str) {
 	.replace(/(&&)|(AND)/ig, "∧")
 	.replace(/(<->)|(<=>)/ig, "↔")
 	.replace(/(->)|(implies)|(=>)/gi, "→")
+	.replace(/forall/ig, "∀")
+	.replace(/exists/ig, "∃")
 	.replace(/alpha/ig, "α")
 	.replace(/beta/ig, "β")
 	.replace(/gamma/g, "γ")
@@ -45,7 +47,8 @@ function prog2presentation(str) {
 }
 
 function prog2latex(str) {
-	return str.replace(/(XOR)|(\^)/ig, "\\oplus")
+	return str.replace(/\n/ig, " \\\\\n")
+	.replace(/(XOR)|(\^)/ig, "\\oplus")
 	.replace(/(\|\|)|(OR)/g, "\\vee")
 	.replace(/!\s?=/g, "\\neq")
 	.replace(/\|=/g, "\\vDash")
@@ -59,9 +62,9 @@ function prog2latex(str) {
 	.replace(/(&&)|(AND)/ig, "\\wedge")
 	.replace(/(<->)|(<=>)/ig, "\\leftrightarrow")
 	.replace(/(->)|(implies)|(=>)/ig, "\\rightarrow")
+	.replace(/forall/ig, "\\forall \\ ")
+	.replace(/exists/ig, "\\exists \\ ")
 	.replace(/alpha/ig, "\\alpha")
-	.replace(/alpha/ig, "\\alpha")
-	.replace(/\n/ig, " \\\\\n")
 	.replace(/beta/ig, "\\beta")
 	.replace(/(g)amma/ig, "\\$1amma")
 	.replace(/(d)elta/ig, "\\$1elta")
