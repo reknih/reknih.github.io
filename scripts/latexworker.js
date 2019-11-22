@@ -8,6 +8,11 @@ function prog2presentation(str) {
 	.replace(/(&&)|(AND)/ig, "∧")
 	.replace(/(<->)|(<=>)/ig, "↔")
 	.replace(/(->)|(implies)|(=>)/gi, "→")
+	.replace(/([^\w\\]|^)N(\W|$)/gm, "$1ℕ$2")
+	.replace(/([^\w\\]|^)Z(\W|$)/gm, "$1ℤ$2")
+	.replace(/([^\w\\]|^)R(\W|$)/gm, "$1ℝ$2")
+	.replace(/forall/ig, "∀")
+	.replace(/exists/ig, "∃")
 	.replace(/alpha/ig, "α")
 	.replace(/beta/ig, "β")
 	.replace(/gamma/g, "γ")
@@ -20,8 +25,8 @@ function prog2presentation(str) {
 	.replace(/Theta/ig, "Θ")
 	.replace(/lambda/ig, "λ")
 	.replace(/(mu)|(micro)/ig, "μ")
-	.replace(/xi/g, "ξ")
-	.replace(/Xi/ig, "Ξ")
+	.replace(/([^\w\\]|^)xi/gm, "$1ξ")
+	.replace(/(\\|\W|^)Xi/ig, "$1Ξ")
 	.replace(/pi/g, "π")
 	.replace(/Pi/ig, "Π")
 	.replace(/sigma/g, "σ")
@@ -33,7 +38,7 @@ function prog2presentation(str) {
 	.replace(/omega/g, "ω")
 	.replace(/Omega/ig, "Ω")
 	.replace(/===/g, "≡")
-	.replace(/\*/g, "×")
+	.replace(/\*/g, "·")
 	.replace(/\//g, "÷")
 	.replace(/>\s?=/g, "≥")
 	.replace(/(<\s?=)|(=\s?<)/g, "≤")
@@ -45,7 +50,8 @@ function prog2presentation(str) {
 }
 
 function prog2latex(str) {
-	return str.replace(/(XOR)|(\^)/ig, "\\oplus")
+	return str.replace(/\n/ig, " \\\\\n")
+	.replace(/(XOR)|(\^)/ig, "\\oplus")
 	.replace(/(\|\|)|(OR)/g, "\\vee")
 	.replace(/!\s?=/g, "\\neq")
 	.replace(/\|=/g, "\\vDash")
@@ -53,15 +59,16 @@ function prog2latex(str) {
 	.replace(/infinity/ig, "∞")
 	.replace(/(element)|(in)/ig, "\\in")
 	.replace(/(!\s?element)|(!\s?in)/ig, "\\notin")
+	.replace(/([^\w\\]|^)([NZRCQ])(\W|$)/gm, "$1\\mathbb{$2}$3")
 	.replace(/{}/g, "\\emptyset")
 	.replace(/(False)|\sF\s|(Bottom)/ig, "\\perp{}")
 	.replace(/(True)|\sT\s|(Top)/ig, "\\top{}")
 	.replace(/(&&)|(AND)/ig, "\\wedge")
 	.replace(/(<->)|(<=>)/ig, "\\leftrightarrow")
 	.replace(/(->)|(implies)|(=>)/ig, "\\rightarrow")
+	.replace(/forall/ig, "\\forall \\ ")
+	.replace(/exists/ig, "\\exists \\ ")
 	.replace(/alpha/ig, "\\alpha")
-	.replace(/alpha/ig, "\\alpha")
-	.replace(/\n/ig, " \\\\\n")
 	.replace(/beta/ig, "\\beta")
 	.replace(/(g)amma/ig, "\\$1amma")
 	.replace(/(d)elta/ig, "\\$1elta")
@@ -70,7 +77,7 @@ function prog2latex(str) {
 	.replace(/(t)heta/ig, "\\$1heta")
 	.replace(/lambda/ig, "\\lambda")
 	.replace(/(mu)|(micro)/ig, "\\mu")
-	.replace(/(x)i/ig, "\\$1i")
+	.replace(/([^\w\\]|^)(x)i/ig, "$1\\$2i")
 	.replace(/(p)i/ig, "\\$1i")
 	.replace(/(S)igma/ig, "\\$1igma")
 	.replace(/tau/ig, "\\tau")
@@ -81,7 +88,7 @@ function prog2latex(str) {
 	.replace(/===/g, "\\equiv")
 	.replace(/:=/g, "\\coloneqq")
 	.replace(/\.\.\./g, "\\cdots")
-	.replace(/\*/g, "\\times")
+	.replace(/\*/g, "\\cdot")
 	.replace(/\//g, "\\div")
 	.replace(/>\s?=/g, "\\geq")
 	.replace(/(<\s?=)|(=\s?<)/g, "\\leq")
@@ -141,7 +148,7 @@ function whatThePack(input) {
 }
 
 function displayWarn(pres) {
-	var warning = ["√", "[[", "]]", "└", "┌", "T", ":=", "|="];
+	var warning = ["√", "[[", "]]", "└", "┌", "T", ":=", "|=", "C", "Q"];
 	return matchInArray(pres, warning);
 }
 
