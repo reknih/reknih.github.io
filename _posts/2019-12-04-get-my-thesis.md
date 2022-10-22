@@ -6,7 +6,7 @@ permalink: /post/:title/
 categories: [academic,thesis,publication]
 ---
 
-This year, I have completed my undergard studies. The research thesis I created is called [**Batch localization algorithm for floating wireless sensor networks**](http://www.user.tu-berlin.de/mhaug/batch-mobile-wsn-localization.pdf).
+This year, I have completed my undergrad studies. The research thesis I created is called [**Batch localization algorithm for floating wireless sensor networks**](http://www.user.tu-berlin.de/mhaug/batch-mobile-wsn-localization.pdf).
 
 In it, I developed a new algorithm to assign a position to each transmission of mobile nodes of a WSN from a centralized backend. The WSN is required to have static nodes with known positions.
 Furthermore, the environment in which the WSN has been deployed has to be structured like a tree graph. Given this infrastructure, the algorithm is able to interpolate the sensor's positions between the reference nodes
